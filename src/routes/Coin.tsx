@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Outlet,useParams,useLocation } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useParams,
+  useLocation,
+  useMatch,
+} from "react-router-dom";
 
 import styled from "styled-components";
 const Title = styled.h1`
@@ -24,97 +30,102 @@ const Header = styled.header`
 `;
 
 interface IRouteState {
-    state : {
-        name : string
-    }
+  state: {
+    name: string;
+  };
 }
 
 interface IInfoData {
-    id: string;
-    name: string;
-    symbol: string;
-    rank: number;
-    is_new: boolean;
-    is_active: boolean;
-    type: string;
-    description: string;
-    message: string;
-    open_source: boolean;
-    started_at: string;
-    development_status: string;
-    hardware_wallet: boolean;
-    proof_type: string;
-    org_structure: string;
-    hash_algorithm: string;
-    first_data_at: string;
-    last_data_at: string;
-  }
-  
-  interface IPriceData {
-    id: string;
-    name: string;
-    symbol: string;
-    rank: number;
-    circulating_supply: number;
-    total_supply: number;
-    max_supply: number;
-    beta_value: number;
-    first_data_at: string;
-    last_updated: string;
-    quotes: {
-      USD: {
-        ath_date: string;
-        ath_price: number;
-        market_cap: number;
-        market_cap_change_24h: number;
-        percent_change_1h: number;
-        percent_change_1y: number;
-        percent_change_6h: number;
-        percent_change_7d: number;
-        percent_change_12h: number;
-        percent_change_15m: number;
-        percent_change_24h: number;
-        percent_change_30d: number;
-        percent_change_30m: number;
-        percent_from_price_ath: number;
-        price: number;
-        volume_24h: number;
-        volume_24h_change_24h: number;
-      };
-    };
-  }
-  
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  is_new: boolean;
+  is_active: boolean;
+  type: string;
+  description: string;
+  message: string;
+  open_source: boolean;
+  started_at: string;
+  development_status: string;
+  hardware_wallet: boolean;
+  proof_type: string;
+  org_structure: string;
+  hash_algorithm: string;
+  first_data_at: string;
+  last_data_at: string;
+}
 
+interface IPriceData {
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  circulating_supply: number;
+  total_supply: number;
+  max_supply: number;
+  beta_value: number;
+  first_data_at: string;
+  last_updated: string;
+  quotes: {
+    USD: {
+      ath_date: string;
+      ath_price: number;
+      market_cap: number;
+      market_cap_change_24h: number;
+      percent_change_1h: number;
+      percent_change_1y: number;
+      percent_change_6h: number;
+      percent_change_7d: number;
+      percent_change_12h: number;
+      percent_change_15m: number;
+      percent_change_24h: number;
+      percent_change_30d: number;
+      percent_change_30m: number;
+      percent_from_price_ath: number;
+      price: number;
+      volume_24h: number;
+      volume_24h_change_24h: number;
+    };
+  };
+}
 
 function Coin() {
-    const { coinId } = useParams();
-    const {state} = useLocation() as IRouteState
+  const { coinId } = useParams();
+  const { state } = useLocation() as IRouteState;
 
-    const [info, setInfo] = useState<IInfoData>()
-    const [priceInfo, setPriceInfo] = useState<IPriceData>()
+  const [info, setInfo] = useState<IInfoData>();
+  const [priceInfo, setPriceInfo] = useState<IPriceData>();
+const priceMatch = useMatch('/:coinId/price')
 
-    useEffect(() => {
-        (async() => {
-            const infoD = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json()
-            
-            const price = await (
-                await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-            ).json()
+console.log(priceMatch)
 
-            setInfo(infoD)
-            setPriceInfo(price)
 
-        })()
-    },[])
+  useEffect(() => {
+    (async () => {
+      const infoD = await (
+        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
+      ).json();
 
-    return (
-        <Container>
-          <Header>
-            <Title>{state?.name || "Loading..."}</Title>
-          </Header>
-          <Outlet/>
-        </Container>
-      );
+      const price = await (
+        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
+      ).json();
+
+      setInfo(infoD);
+      setPriceInfo(price);
+    })();
+  }, []);
+
+  return (
+    <Container>
+      <Header>
+        <Title>{state?.name || "Loading..."}</Title>
+      </Header>
+      <Link to={`/${coinId}/chart`}>Chart</Link>
+      <Link to={`/${coinId}/price`}>Price</Link>
+      <Outlet />
+    </Container>
+  );
 }
 
 export default Coin;
