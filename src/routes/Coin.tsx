@@ -96,10 +96,8 @@ function Coin() {
 
   const [info, setInfo] = useState<IInfoData>();
   const [priceInfo, setPriceInfo] = useState<IPriceData>();
-const priceMatch = useMatch('/:coinId/price')
-
-console.log(priceMatch)
-
+  const priceMatch = useMatch("/:coinId/price");
+  const chartMatch = useMatch("/:coinId/chart");
 
   useEffect(() => {
     (async () => {
