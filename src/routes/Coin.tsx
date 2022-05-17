@@ -7,8 +7,10 @@ import {
   useLocation,
   useMatch,
 } from "react-router-dom";
+import { useQuery } from "react-query";
 
 import styled from "styled-components";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
@@ -94,25 +96,18 @@ function Coin() {
   const { coinId } = useParams();
   const { state } = useLocation() as IRouteState;
 
-  const [info, setInfo] = useState<IInfoData>();
-  const [priceInfo, setPriceInfo] = useState<IPriceData>();
+  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(
+    ["info", coinId],
+    () => fetchCoinInfo(coinId as string)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
+    ["tickers", coinId],
+    () => fetchCoinTickers(coinId as string)
+  );
+
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
 
-  useEffect(() => {
-    (async () => {
-      const infoD = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-
-      const price = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-
-      setInfo(infoD);
-      setPriceInfo(price);
-    })();
-  }, []);
 
   return (
     <Container>

@@ -62,16 +62,6 @@ function Coins() {
     const {isLoading, data} = useQuery<ICoin[]>("allCoins",fetchCoins)
     console.log(isLoading,data)
 
-    // const [coins, setCoins] = useState<ICoin[]>([])
-
-    // useEffect(() => {
-    //     (async() => {
-    //         const res = await fetch("https://api.coinpaprika.com/v1/coins")
-    //         const json = await res.json()
-    //         setCoins(json.slice(0,100))
-    //     })()
-    // },[])
-
     return (
         <Container>
           <Header>
