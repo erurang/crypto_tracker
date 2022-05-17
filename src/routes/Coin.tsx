@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useEffect } from "react";
 import {
   Link,
   Outlet,
@@ -116,7 +114,7 @@ function Coin() {
       </Header>
       <Link to={`/${coinId}/chart`}>Chart</Link>
       <Link to={`/${coinId}/price`}>Price</Link>
-      <Outlet />
+      <Outlet context={{coinId}}/>
     </Container>
   );
 }
