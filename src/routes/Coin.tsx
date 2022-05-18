@@ -13,10 +13,7 @@ const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-`;
+
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
@@ -106,15 +103,18 @@ function Coin() {
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
 
-
   return (
     <Container>
       <Header>
         <Title>{state?.name || "Loading..."}</Title>
       </Header>
-      <Link to={`/${coinId}/chart`}>Chart</Link>
-      <Link to={`/${coinId}/price`}>Price</Link>
-      <Outlet context={{coinId}}/>
+      <Link to={`/${coinId}/chart`} state={{ name: state?.name }}>
+        Chart
+      </Link>
+      <Link to={`/${coinId}/price`} state={{ name: state?.name }}>
+        Price
+      </Link>
+      <Outlet context={{ coinId, name: state?.name }} />
     </Container>
   );
 }

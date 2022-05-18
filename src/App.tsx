@@ -1,8 +1,8 @@
-import React from 'react';
-import Router from './routes/Router';
+import React from "react";
+import Router from "./routes/Router";
 
-import { createGlobalStyle } from 'styled-components';
-import {ReactQueryDevtools} from "react-query/devtools"
+import { createGlobalStyle } from "styled-components";
+// import { ReactQueryDevtools } from "react-query/devtools";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -31,9 +31,9 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	line-height: 1;
-  background-color: ${props => props.theme.bgColor};
-  color : ${props => props.theme.textColor}
+  line-height: 1;
+  background-color: ${(props) => props.theme.bgColor};
+  color : ${(props) => props.theme.textColor}
 }
 ol, ul {
 	list-style: none;
@@ -58,16 +58,14 @@ a {
   text-decoration: none;
   color:inherit;
 }
-`
-
-
+`;
 
 function App() {
   return (
     <>
       <GlobalStyle />
       <Router />
-	  <ReactQueryDevtools initialIsOpen={true}/>
+      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
     </>
   );
 }
