@@ -6,6 +6,8 @@ import { fetchCoins } from "../api";
 
 const Container = styled.div`
   padding: 0px 20px;
+  max-width: 480px;
+  margin: 0 auto;
 `;
 
 const Header = styled.header`
@@ -41,9 +43,14 @@ const Title = styled.h1`
 `;
 
 const Img = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   margin-right: 10px;
+`;
+
+const Loader = styled.span`
+  text-align: center;
+  display: block;
 `;
 
 interface ICoin {
@@ -57,15 +64,19 @@ interface ICoin {
 }
 
 function Coins() {
-  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  const { isLoading, data, error } = useQuery<ICoin[]>("allCoins", fetchCoins);
+
+  if(error) {
+    alert('서버에서 데이터를 가져오는데 실패했습니다.')
+  }
 
   return (
     <Container>
       <Header>
-        <Title>코인</Title>
+        <Title>Coin Tracker</Title>
       </Header>
       <CoinsList>
-        {data?.slice(0, 100).map((coin) => (
+        {isLoading ? <Loader>Loading...</Loader> : data?.slice(0, 100).map((coin) => (
           <Coin key={coin.id}>
             <Link to={`/${coin.id}`} state={{ name: coin.name }}>
               <Img

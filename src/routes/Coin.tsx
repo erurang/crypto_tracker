@@ -91,17 +91,21 @@ function Coin() {
   const { coinId } = useParams();
   const { state } = useLocation() as IRouteState;
 
-  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(
+  const { isLoading: infoLoading, data: infoData,error : infoError } = useQuery<IInfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId as string)
   );
-  const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
+  const { isLoading: tickersLoading, data: tickersData,error :tickersError } = useQuery<IPriceData>(
     ["tickers", coinId],
     () => fetchCoinTickers(coinId as string)
   );
 
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
+
+  if(infoError || tickersError) {
+    alert('서버에서 데이터를 가져오는데 실패했습니다.')
+  }
 
   return (
     <Container>

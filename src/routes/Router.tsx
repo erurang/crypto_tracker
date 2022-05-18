@@ -5,7 +5,8 @@ import Coins from "./Coins";
 import Price from "./Price";
 
 function Router() {
-    return <BrowserRouter basename={process.env.PUBLIC_URL}>
+    // basename={process.env.PUBLIC_URL}
+    return <BrowserRouter >
         <Routes>
             <Route path="/" element={<Coins />}></Route>
             <Route path="/:coinId" element={<Coin />}>
