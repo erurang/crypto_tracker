@@ -17,6 +17,7 @@
     "react": "^18.1.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.1.0",
+    "react-helmet": "^6.1.0",
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
@@ -50,5 +51,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://erurang.github.io/crypto_tracker"
+  "homepage": "https://erurang.github.io/crypto_tracker",
+  "devDependencies": {
+    "@types/react-helmet": "^6.1.5"
+  }
 }

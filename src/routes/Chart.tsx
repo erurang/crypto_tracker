@@ -23,9 +23,6 @@ function Chart() {
     fetchCoinHistory(coinId)
   );
 
-  const out = useOutletContext();
-  console.log(out)
-
   return (
     <div>
       {isLoading ? (
@@ -60,8 +57,8 @@ function Chart() {
             plotOptions: {
               candlestick: {
                 colors: {
-                  upward: "#DF7D46", // 상승 시 색상
-                  downward: "#3C90EB", // 하락 시 색상
+                  upward: "#01FF00", // 상승 시 색상
+                  downward: "#ED1C24", // 하락 시 색상
                 },
               },
             },
